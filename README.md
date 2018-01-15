@@ -4,7 +4,7 @@ Bot for monitoring web sites
 
 
 
-For install need^
+For install need:
 1. sudo apt-get update && sudo apt-get install python python-pip
 2. sudo pip install requests
 3. Edit the config file: config.json
