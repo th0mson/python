@@ -1,0 +1,21 @@
+{
+    "main":{
+        "Version":"1.0",
+        "daemon_timeout":10
+    },
+    "tg_bot":{
+        "tg_bot_token":"<your bot token here>",
+        "tg_chanel_id":"<your chanel/chat id here>",
+        "tg_bot_timeout":240
+    },
+    "list_sites":{
+        "site1":{
+            "check_url":"<your URL for monitoring>",
+            "check_str":"<string for search>"
+        },
+        "site2":{
+            "check_url":"<your URL for monitoring>",
+            "check_str":"<string for search>"
+        }
+    }
+}
