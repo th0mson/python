@@ -8,7 +8,7 @@ Bot for monitoring web sites
 3. ```Clone repository to your local script folder```
 
 ## Configuration:
-### Edit the config file: config.json
+Edit the config file: config.json
    - Set your Telegram bot token in to param "tg_bot_token";
    - Set your Telegram chanel/chat id in to param "tg_shanel_id";
    - Set URL's for monitoring in to param "check_url";
@@ -17,12 +17,12 @@ Bot for monitoring web sites
    - Edit timeout (sec) for tg_bot timeout in to param tg_bot_timeout;
 
 ## Testing:
-### For testing run scripts in your script folder
+For testing run scripts in your script folder
 ```python tgbot.py```
 
 ```python webcheck.py```
 
-if all right, you are get Test messages
+if all right, you are get Test messages to your Telegram Chanel/Chat
 
 ## Start:
 ### For run full monitoring, you are need starting Daemon:
