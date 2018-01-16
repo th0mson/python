@@ -29,4 +29,12 @@ if all right, you are get Test messages to your Telegram Chanel/Chat
 
 ```python <Script_Path>/webcheckdaemon.py start```
 
-Add this command to /etc/rc.local to start this daemon in start your OS
+## Daemon
+- Set path to script in to param "WorkingDirectory" webmon.service
+- Copy webmon.service to /etc/systemd/system/webmon.service
+- run Daemon with command:
+```systemctl start webmin.service```
+
+-for autorun service - execute:
+```systemctl enable webmin.service```
+
