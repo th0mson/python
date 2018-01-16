@@ -34,10 +34,10 @@ if all right, you are get Test messages to your Telegram Chanel/Chat
 - Copy webmon.service to /etc/systemd/system/webmon.service
 - run Daemon with command:
 
-  ```systemctl start webmin.service```
+  ```systemctl start webmon.service```
 
 - for autorun service - execute:
 
-  ```systemctl enable webmin.service```
+  ```systemctl enable webmon.service```
 
 For quickly install run ```insyall.sh```
