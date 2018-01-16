@@ -16,7 +16,7 @@ class WebCheck:
 
     def __init__(self):
         # Log init
-        logging.basicConfig(filename = tempfile.gettempdir() + '/' + __file__.split(".")[0] + '.log',
+        logging.basicConfig(filename = tempfile.gettempdir() + '/' + (os.path.basename(__file__)).split('.')[0] + '.log',
                             level = logging.DEBUG,
                             format = '%(asctime)s %(levelname)s: %(message)s',
                             datefmt = '%Y-%m-%d %I:%M:%S')
