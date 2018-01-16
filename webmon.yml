@@ -10,8 +10,8 @@
 
     # Variable telegram bot parametrs
     tg_bot:
-      - {'key': '"tg_bot_token"', 'value': '"241366023:AAGEkBLH-NaUH4Ej5PAat824dd9REV8IJNU",'}
-      - {'key': '"tg_chanel_id"', 'value': '"88640565",'}
+      - {'key': '"tg_bot_token"', 'value': '"000000000000000000000000000000000000000",'}
+      - {'key': '"tg_chanel_id"', 'value': '"123456789",'}
 
     # Variable list sites
     ls_sites:
@@ -56,11 +56,6 @@
         - start daemon
 
   handlers:
-      # Install python modules
-    - name: install requests
-      pip:
-        name: requests
-
       # Install systemd unit 
     - name: install systemd unit
       sudo: yes
