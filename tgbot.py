@@ -3,7 +3,7 @@
 
 import os, sys
 import json
-import requests # pip install requests
+import requests #pip install requests
 
 class TG_Bot:
     def __init__(self, token):
@@ -16,6 +16,7 @@ class TG_Bot:
         response = requests.post(self.api_url + method, params)
         return response
 
+# Test function
 def TGBot_Test():
     # read config
     cfgPath = os.path.dirname(os.path.realpath(__file__)) + '/config.json'

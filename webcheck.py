@@ -3,28 +3,26 @@
 
 import os, sys, subprocess, logging, tempfile
 import json
+import requests #pip install requests
 
-from datetime import datetime
+from datetime import timedelta, datetime
 from tgbot import TG_Bot
 
 class WebCheck:
-    """
-    A generic webcheck class.
-
-    """
-
-    # default timeout for demon
-    daemonTimeoutDefault       = 10 #sec
+    # default timeout
+    daemonTimeoutDefault = 10 #sec
+    tgBotTimeoutDefault  = timedelta(minutes=1) #default 1 minute
+    lastCheckTime = {}
 
     def __init__(self):
-        # log init
-        logging.basicConfig(filename = tempfile.gettempdir() + '/' + __file__.split(".")[-1] + '.log',
+        # Log init
+        logging.basicConfig(filename = tempfile.gettempdir() + '/' + __file__.split(".")[0] + '.log',
                             level = logging.DEBUG,
                             format = '%(asctime)s %(levelname)s: %(message)s',
                             datefmt = '%Y-%m-%d %I:%M:%S')
         logging.info('Daemon start')
 
-        # read config
+        # Read config
         cfgPath = os.path.dirname(os.path.realpath(__file__)) + '/config.json'
 
         if os.path.exists(cfgPath):
@@ -58,7 +56,7 @@ class WebCheck:
             logging.error(message)
             sys.exit(2)
 
-        ## Load Sites list
+        ## Load Site list
         if 'list_sites' not in cfg:
             message = 'Is not define Sites List params (sites_list) in "config.json". Daemon stopped.'
             self.fireNotify(message)
@@ -71,36 +69,22 @@ class WebCheck:
         if 'daemon_timeout' in cfg['main']:
             self.daemonTimeout = cfg['main']['daemon_timeout']
         else:
-           self.daemonTimeout = self.daemonTimeoutDefault
+            self.daemonTimeout = self.daemonTimeoutDefault
 
-        ## First message for start Daemon
-        self.fireNotify('Monitoring up')
+        ## Set tg_bot timeout for error message
+        if 'tg_bot_timeout' in cfg['main']:
+            self.tgBotTimeout = timedelta(minutes=cfg['main']['tg_bot_timeout'])
+        else:
+            self.tgBotTimeout = self.tgBotTimeoutDefault
 
     def fireNotify(self, msg = ''):
         """
         Fire notify action
         """
-
         TGBot = TG_Bot(self.tgbot_token)
         TGBot.SendMessage(self.tgbot_chanel_id, msg)
 
         logging.info('Called fireNotify()')
-
-    def getLastCheckTime(self):
-        """
-        To simplicity, time of last modification of the current file is used as the time of last checking
-        """
-        lastCheckTime = os.path.getmtime(__file__)
-        return datetime.fromtimestamp(lastCheckTime)
-
-    def setLastCheckTime(self, time = None):
-        """
-        Set time of last checking -> touch file
-        """
-        #commands.getoutput('touch ' + __file__)
-        #os.system('touch ' + __file__)
-        subprocess.check_output('touch ' + __file__, shell=True)
-        return self
 
     def getDaemonTimeout(self):
         """
@@ -108,23 +92,60 @@ class WebCheck:
         """
         return self.daemonTimeout
 
+    def getTgBotTimeout(self):
+        """
+        Get tg bot error message timeout
+        """
+        return self.tgBotTimeout
+
+    def webParser(self, check_data, search_str):
+        """
+        Search word/string in resurse
+        """
+        c = 0
+        if search_str in check_data:
+            c += 1
+        else:
+            c = 0
+        return c
+
     def check(self, lastCheckTime = None, repositoryPath = None):
         """
-        Get log as string
+        Checking sources
         """
         logging.info('Called check()')
-        if (not lastCheckTime):
-            lastCheckTime = self.getLastCheckTime()
 
+        ## Checking all site in List from config
+        for site in sorted(self.ListSites):
+            logging.debug('sourceCheck: %s', self.ListSites[site]['check_url'])
+            parser_count = 0
 
-#        for item in self.ListSites:
-#            logging.debug('sourceOutput: %s', sourceOutput)
-#            parser = webParser.webParser(sourceOutput)
-#            strStatus = parser.getSTRStatus()
+            try:
+                ## Get request
+                response = requests.get(self.ListSites[site]['check_url'])
+                ## Search word/string in get request
+                parser_count = self.webParser(response.content, self.ListSites[site]['check_str'])
+            except requests.exceptions.ReadTimeout:
+               print('Oops. Read timeout occured')
+            except requests.exceptions.ConnectTimeout:
+               print('Oops. Connection timeout occured!')
+            except requests.exceptions.ConnectionError:
+               print('Seems like dns lookup failed..')
+            except requests.exceptions.HTTPError as err:
+               print('Oops. HTTP Error occured')
+               print('Response is: {content}'.format(content=err.response.content))
 
-        self.setLastCheckTime()
+            # If word/string not found in get request or site not loaded then send message to telegram
+            if parser_count == 0:
+                CurrentCheckTime = datetime.now()
+                if (site not in self.lastCheckTime):
+                    self.lastCheckTime[site] = datetime.now()
+                    self.fireNotify('{} is broken {} not found'.format(self.ListSites[site]['check_url'], self.ListSites[site]['check_str']))
 
-#       self.fireNotify('Test Message {}'.format(lastCheckTime))
+                # send message to telegram with interval from tgBotTimeout variable
+                if ((CurrentCheckTime - self.tgBotTimeout) >= self.lastCheckTime[site]):
+                    self.fireNotify('{} is broken {} not found'.format(self.ListSites[site]['check_url'], self.ListSites[site]['check_str']))
+                    self.lastCheckTime[site] = CurrentCheckTime
 
         logging.info('End check()')
         return self
@@ -132,3 +153,4 @@ class WebCheck:
 if __name__ == '__main__':
     c = WebCheck()
     c.check()
+
