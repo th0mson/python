@@ -19,12 +19,13 @@ Bot for monitoring web sites
 ## Testing:
 ### For testing run scripts in your script folder
 ```python tgbot.py```
+
 ```python webcheck.py```
 
 if all right, you are get Test messages
 
 ## Start:
-###For run full monitoring, you are need starting Daemon:
+### For run full monitoring, you are need starting Daemon:
 
 ```python <Script_Path>/webcheckdaemon.py start```
 
