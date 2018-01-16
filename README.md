@@ -29,7 +29,7 @@ if all right, you are get Test messages to your Telegram Chanel/Chat
 
 ```python <Script_Path>/webcheckdaemon.py start```
 
-## Daemon:
+## SYSTEMD:
 - Set path to script in to param "WorkingDirectory" webmon.service
 - Copy webmon.service to /etc/systemd/system/webmon.service
 - run Daemon with command:
