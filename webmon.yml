@@ -1,0 +1,74 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    # Address for git projetc
+    project_repo: https://github.com/th0mson/webmon.git
+
+    # Path where install scripts
+    project_location: /opt/webmon
+
+    # Variable telegram bot parametrs
+    tg_bot:
+      - {'key': '"tg_bot_token"', 'value': '"241366023:AAGEkBLH-NaUH4Ej5PAat824dd9REV8IJNU",'}
+      - {'key': '"tg_chanel_id"', 'value': '"88640565",'}
+
+    # Variable list sites
+    ls_sites:
+      - {'key': '"site1"', 'value': '{"check_url":"http://www.mocky.io/v2/5a58ac2c2d0000d81fd2e5d6", "check_str":"string1"},'}
+      - {'key': '"site2"', 'value': '{"check_url":"http://www.mocky.io/v2/5a58ac382d00000f20d2e5d7", "check_str":"string2"},'}
+      - {'key': '"siteX"', 'value': '{"check_url":"http://www.mocky.io/v2/5a5c809f2e00001d089f82ee", "check_str":"hella"},'}
+
+  tasks:
+    # Clone project script from git reposetory to host
+    - name: Clone project code.
+      git:
+        repo: "{{ project_repo }}"
+        dest: "{{ project_location }}"
+        update: yes
+
+    # Set to config file telegram bot parametrs
+    - name: Set tg_bot params
+      lineinfile: 
+         dest: "{{ project_location }}/config.json"
+         regexp: "{{ item.key }}"
+         line: '        {{ item.key }}: {{ item.value  }}'
+      with_items:
+         "{{ tg_bot  }}"
+
+    # Set to config file list of site for monitoring
+    - name: Set ls_sites params
+      lineinfile: 
+         dest: "{{ project_location }}/config.json"
+         insertafter: "list_sites"
+         line: '        {{ item.key }}: {{ item.value  }}'
+      with_items:
+         "{{ ls_sites  }}"
+
+    # Set work path of script to systemd unit, copy unit to systemd units path and start daemon
+    - name: Set systemd params
+      lineinfile: 
+         dest: "{{ project_location }}/webmon.service"
+         regexp: ";WorkingDirectory="
+         line: 'WorkingDirectory={{ project_location }}'
+      notify: 
+        - install systemd unit
+        - start daemon
+
+  handlers:
+      # Install python modules
+    - name: install requests
+      pip:
+        name: requests
+
+      # Install systemd unit 
+    - name: install systemd unit
+      sudo: yes
+      command: mv "{{ project_location }}/webmon.service" "/etc/systemd/system/webmon.service"
+
+      # Start service
+    - name: start daemon
+      sudo: yes
+      systemd: 
+        name: webmon
+        state: started
