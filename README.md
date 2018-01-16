@@ -14,7 +14,7 @@ Edit the config file: config.json
    - Set URL's for monitoring in to param "check_url";
    - Set word/string to parsing in your sites in to param "check_str";
    - Edit timeout (sec) for webCheckDaemon in to param daemon_timeout;
-   - Edit timeout (minute) for tg_bot timeout in to param tg_bot_timeout;
+   - Edit timeout (sec) for tg_bot timeout in to param tg_bot_timeout;
 
 For testing run in script path:
 python tgbot.py
