@@ -40,4 +40,4 @@ if all right, you are get Test messages to your Telegram Chanel/Chat
 
   ```systemctl enable webmon.service```
 
-For quickly install run ```insyall.sh```
+For quickly install run ```install.sh```
