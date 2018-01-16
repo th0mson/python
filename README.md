@@ -8,6 +8,7 @@ Install:
 3. Clone repository to your local script folder
 
 Configuration:
+
 Edit the config file: config.json
    - Set your Telegram bot token in to param "tg_bot_token";
    - Set your Telegram chanel/chat id in to param "tg_shanel_id";
@@ -17,6 +18,7 @@ Edit the config file: config.json
    - Edit timeout (sec) for tg_bot timeout in to param tg_bot_timeout;
 
 For testing run in script path:
+
 python tgbot.py
 python webcheck.py
 
@@ -24,6 +26,7 @@ if all right, you are get Test messages
 
 
 For run full monitoring, you are need starting Daemon:
+
 python <Script_Path>/webcheckdaemon.py start
 
 Add this command to /etc/rc.local to start this daemon in start your OS
