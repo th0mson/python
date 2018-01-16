@@ -7,6 +7,10 @@ import daemon, webcheck
 class WebCheck(daemon.Daemon):
     def run(self):
         c = webcheck.WebCheck()
+
+        # First message for start Daemon
+        c.fireNotify('Monitoring up')
+
         while True:
             c.check()
             time.sleep(c.getDaemonTimeout())
