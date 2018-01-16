@@ -1,12 +1,12 @@
 {
     "main":{
         "Version":"1.0",
-        "daemon_timeout":10
+        "daemon_timeout":1
     },
     "tg_bot":{
         "tg_bot_token":"<your bot token here>",
         "tg_chanel_id":"<your chanel/chat id here>",
-        "tg_bot_timeout":240
+        "tg_bot_timeout":60
     },
     "list_sites":{
         "site1":{

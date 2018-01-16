@@ -10,8 +10,8 @@ from tgbot import TG_Bot
 
 class WebCheck:
     # default timeout
-    daemonTimeoutDefault = 10 #sec
-    tgBotTimeoutDefault  = timedelta(minutes=1) #default 1 minute
+    daemonTimeoutDefault = 1 #sec
+    tgBotTimeoutDefault  = timedelta(seconds=60) #sec
     lastCheckTime = {}
 
     def __init__(self):
@@ -73,7 +73,7 @@ class WebCheck:
 
         ## Set tg_bot timeout for error message
         if 'tg_bot_timeout' in cfg['main']:
-            self.tgBotTimeout = timedelta(minutes=cfg['main']['tg_bot_timeout'])
+            self.tgBotTimeout = timedelta(seconds=cfg['tg_bot']['tg_bot_timeout'])
         else:
             self.tgBotTimeout = self.tgBotTimeoutDefault
 
@@ -109,7 +109,7 @@ class WebCheck:
             c = 0
         return c
 
-    def check(self, lastCheckTime = None, repositoryPath = None):
+    def check(self, lastCheckTime = None, testStatus = None):
         """
         Checking sources
         """
@@ -135,6 +135,10 @@ class WebCheck:
                print('Oops. HTTP Error occured')
                print('Response is: {content}'.format(content=err.response.content))
 
+            # testing
+            if testStatus == 'test':
+                self.fireNotify('Testing config:\nURL = {},\nword/string = {}'.format(self.ListSites[site]['check_url'], self.ListSites[site]['check_str']))
+
             # If word/string not found in get request or site not loaded then send message to telegram
             if parser_count == 0:
                 CurrentCheckTime = datetime.now()
@@ -152,5 +156,4 @@ class WebCheck:
 
 if __name__ == '__main__':
     c = WebCheck()
-    c.check()
-
+    c.check(testStatus = 'test')
