@@ -9,6 +9,6 @@
         "tg_bot_timeout":60
     },
     "list_sites":{
-        "siteEx":{"check_url":"http://example.com", "check_str":"Example"}"
+        "siteEx": {"check_url":"http://example.com", "check_str":"Example"}
     }
 }
