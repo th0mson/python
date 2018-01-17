@@ -17,7 +17,8 @@ Edit the config file: config.json
    - Edit timeout (sec) for tg_bot timeout in to param tg_bot_timeout;
 
 ## Testing:
-For testing run scripts in your script folder
+For testing run scripts in your script folder:
+
 ```python tgbot.py```
 
 ```python webcheck.py```
@@ -30,8 +31,8 @@ if all right, you are get Test messages to your Telegram Chanel/Chat
 ```python <Script_Path>/webcheckdaemon.py start```
 
 ## SYSTEMD:
-- Set path to script in to param "WorkingDirectory" webmon.service
-- Copy webmon.service to /etc/systemd/system/webmon.service
+- Set path to script in to param "WorkingDirectory" ```webmon.service```
+- Copy ```webmon.service``` to ```/etc/systemd/system/webmon.service```
 - run Daemon with command:
 
   ```systemctl start webmon.service```
@@ -42,7 +43,7 @@ if all right, you are get Test messages to your Telegram Chanel/Chat
 
 ## Ansible:
 - Edit ansible playbook ```webmon.yml``` vars param:
-  - Set local project path where will install scripts;
+  - Set local project path where will install scripts in param ```project_location```;
   - Set in ```tg_bot```:
     - Set tg_bot_token in ```value``` key;
     - Set tg_chanel_id in ```value``` key;
@@ -51,4 +52,4 @@ if all right, you are get Test messages to your Telegram Chanel/Chat
     - Set url and string/word in param ```value``` for keys ```check_url``` and ```check_str```;
 - Run:
 
-```ansible-playbook webmon.yml```
+  ```ansible-playbook webmon.yml```
