@@ -40,4 +40,15 @@ if all right, you are get Test messages to your Telegram Chanel/Chat
 
   ```systemctl enable webmon.service```
 
-For quickly install run ```install.sh```
+## Ansible:
+- Edit ansible playbook ```webmon.yml``` vars param:
+  - Set local project path where will install scripts;
+  - Set in ```tg_bot```:
+    - Set tg_bot_token in ```value``` key;
+    - Set tg_chanel_id in ```value``` key;
+  - Set in ```ls_sites```:
+    - Set key name in ```key```;
+    - Set url and string/word in param ```value``` for keys ```check_url``` and ```check_str```;
+- Run:
+
+```ansible-playbook webmon.yml```
