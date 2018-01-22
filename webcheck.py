@@ -142,13 +142,14 @@ class WebCheck:
             # If word/string not found in get request or site not loaded then send message to telegram
             if parser_count == 0:
                 CurrentCheckTime = datetime.now()
+                message = '{} is broken {} not found'.format(self.ListSites[site]['check_url'], self.ListSites[site]['check_str'])
                 if (site not in self.lastCheckTime):
                     self.lastCheckTime[site] = datetime.now()
-                    self.fireNotify('{} is broken {} not found'.format(self.ListSites[site]['check_url'], self.ListSites[site]['check_str']))
+                    self.fireNotify(message)
 
                 # send message to telegram with interval from tgBotTimeout variable
                 if ((CurrentCheckTime - self.tgBotTimeout) >= self.lastCheckTime[site]):
-                    self.fireNotify('{} is broken {} not found'.format(self.ListSites[site]['check_url'], self.ListSites[site]['check_str']))
+                    self.fireNotify(message)
                     self.lastCheckTime[site] = CurrentCheckTime
 
         logging.info('End check()')
