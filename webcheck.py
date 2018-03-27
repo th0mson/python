@@ -103,7 +103,7 @@ class WebCheck:
         Search word/string in resurse
         """
         c = 0
-        if search_str in check_data:
+        if search_str in check_data.decode('utf-8'):
             c += 1
         else:
             c = 0
@@ -137,12 +137,12 @@ class WebCheck:
 
             # testing
             if testStatus == 'test':
-                self.fireNotify('Testing config:\nURL = {},\nword/string = {}'.format(self.ListSites[site]['check_url'], self.ListSites[site]['check_str']))
+                self.fireNotify('Hostname: {}\nService: WEBCHECK\nStatus: INFO\nMSG:\nTesting config:\nURL = {},\nword/string = {}'.format(os.uname()[1], self.ListSites[site]['check_url'], self.ListSites[site]['check_str']))
 
             # If word/string not found in get request or site not loaded then send message to telegram
             if parser_count == 0:
                 CurrentCheckTime = datetime.now()
-                message = '{} is broken {} not found'.format(self.ListSites[site]['check_url'], self.ListSites[site]['check_str'])
+                message = 'Hostname: {}\nService: WEBCHECK\nStatus: WARNING\nMSG: {} is broken {} not found'.format(os.uname()[1], self.ListSites[site]['check_url'], self.ListSites[site]['check_str'])
                 if (site not in self.lastCheckTime):
                     self.lastCheckTime[site] = datetime.now()
                     self.fireNotify(message)
