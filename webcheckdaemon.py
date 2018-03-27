@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys, time, tempfile
+import os, sys, time, tempfile
 import daemon, webcheck
  
 class WebCheck(daemon.Daemon):
@@ -9,11 +9,15 @@ class WebCheck(daemon.Daemon):
         c = webcheck.WebCheck()
 
         # First message for start Daemon
-        c.fireNotify('Monitoring up')
+        c.fireNotify('Hostname: {}\nService: WEBCHECK\nStatus: INFO\nMSG: Monitoring up'.format(os.uname()[1]))
 
         while True:
             c.check()
             time.sleep(c.getDaemonTimeout())
+
+    def stop(self):
+        # Message for stop Daemon
+         webcheck.WebCheck().fireNotify('Hostname: {}\nService: WEBCHECK\nStatus: INFO\nMSG: Monitoring Down'.format(os.uname()[1]))
 
 if __name__ == '__main__':
     pidFile = tempfile.gettempdir() + '/webmon.pid'
