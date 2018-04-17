@@ -6,7 +6,10 @@
     "tg_bot":{
         "tg_bot_token":"<your bot token here>",
         "tg_chanel_id":"<your chanel/chat id here>",
-        "tg_bot_timeout":60
+        "tg_bot_timeout":60,
+	"tg_proxy_socks_host":"tg.fix.ru",
+	"tg_proxy_socks_port":"12345"
+
     },
     "list_sites":{
         "siteEx": {"check_url":"http://example.com", "check_str":"Example"}
