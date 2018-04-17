@@ -7,7 +7,7 @@
         "tg_bot_token":"<your bot token here>",
         "tg_chanel_id":"<your chanel/chat id here>",
         "tg_bot_timeout":60,
-	"tg_proxy_socks_host":"tg.fix.ru",
+	"tg_proxy_socks_host":"socks.url",
 	"tg_proxy_socks_port":"12345"
 
     },
