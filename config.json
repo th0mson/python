@@ -9,7 +9,6 @@
         "tg_bot_timeout":60,
 	"tg_proxy_socks_host":"socks.url",
 	"tg_proxy_socks_port":"12345"
-
     },
     "list_sites":{
         "siteEx": {"check_url":"http://example.com", "check_str":"Example"}

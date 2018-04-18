@@ -9,7 +9,7 @@ class WebCheck(daemon.Daemon):
         c = webcheck.WebCheck()
 
         # First message for start Daemon
-        c.fireNotify('Hostname: {}\nService: WEBCHECK\nStatus: INFO\nMSG: Monitoring up'.format(os.uname()[1]))
+        c.fireNotify('Hostname: {}%0AService: WEBCHECK%0AStatus: INFO%0AMSG: Monitoring up'.format(os.uname()[1]))
 
         while True:
             c.check()
@@ -17,7 +17,7 @@ class WebCheck(daemon.Daemon):
 
     def stop(self):
         # Message for stop Daemon
-         webcheck.WebCheck().fireNotify('Hostname: {}\nService: WEBCHECK\nStatus: INFO\nMSG: Monitoring Down'.format(os.uname()[1]))
+         webcheck.WebCheck().fireNotify('Hostname: {}%0AService: WEBCHECK%0AStatus: INFO%0AMSG: Monitoring Down'.format(os.uname()[1]))
 
 if __name__ == '__main__':
     pidFile = tempfile.gettempdir() + '/webmon.pid'

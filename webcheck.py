@@ -67,7 +67,8 @@ class WebCheck:
             self.tgbot_proxy_socks_port = ""
 
         if self.tgbot_proxy_socks_host != "":
-            self.tgbot_proxy_socks = "socks5://{}:{}".format(self.tgbot_proxy_socks_host, self.tgbot_proxy_socks_port)
+#            self.tgbot_proxy_socks = "socks5://{}:{}".format(self.tgbot_proxy_socks_host, self.tgbot_proxy_socks_port)
+            self.tgbot_proxy_socks = "{}:{}".format(self.tgbot_proxy_socks_host, self.tgbot_proxy_socks_port)
         else:
             self.tgbot_proxy_socks = ""
 
